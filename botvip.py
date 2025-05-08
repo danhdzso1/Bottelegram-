@@ -20,7 +20,7 @@ from telebot import types
 from time import strftime
 import queue
 import pytz
-admin_diggory = "ad_an_danhso5" 
+admin_diggory = "Congdanh208" 
 name_bot = "DanhvipzZz"
 zalo = "0337843824"
 web = "https://dichvukey.site/"
@@ -40,7 +40,7 @@ last_sms_time = {}
 global_lock = Lock()
 allowed_users = []
 processes = []
-ADMIN_ID =  [7244630619, 1087968824]
+ADMIN_ID =  [7244630619]
 connection = sqlite3.connect('user_data.db')
 cursor = connection.cursor()
 last_command_time = {}
@@ -271,7 +271,7 @@ def add_user(message):
     save_user_to_database(connection, user_id, expiration_time)
     connection.close()
 
-    caption_text = (f'<blockquote>NGƯỜI DÙNG CÓ ID {user_id}\nĐÃ ĐƯỢC THÊM VÀO DANH SÁCH VIP\nTHỜI GIAN: {days} DAY\nLỆNH CÓ THỂ SỬ DỤNG CÁC LỆNH TRONG [/vlong]</blockquote>')
+    caption_text = (f'<blockquote>NGƯỜI DÙNG CÓ ID {user_id}\nĐÃ ĐƯỢC THÊM VÀO DANH SÁCH VIP\nTHỜI GIAN: {days} DAY\nLỆNH CÓ THỂ SỬ DỤNG CÁC LỆNH TRONG [/help]</blockquote>')
     bot.send_video(
         message.chat.id,
         video_url,
