@@ -1947,7 +1947,7 @@ mình là [C][B][00FFFF]cdanhdev
 [00FF00][C][B] /🤔3, 5, 6 ➝ [FFFFFF]Team 3 ➝ 6  
 [00FF00][C][B] /🤔crt [id] ➝ [FFFFFF]Mời 1 người chơi
 [00FF00][C][B] /🤔sp [id] ➝ [FFFFFF]Spam join phòng  
-[00FF00][C][B] /🤔lag (team code) ➝ [FFFFFF]Tron lag  
+[00FF00][C][B] /🤔atk (team code) ➝ [FFFFFF]Tron lag  
 ━━━━━━━━━━━━━
             """, uid
                         )
