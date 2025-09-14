@@ -1,10 +1,14 @@
 Flask
 pycryptodome
 requests
+psutil
 protobuf
 PyJWT
-pycryptodome
-protobuf
 protobuf-decoder
 httpx
-requestspsutil
+pyTelegramBotAPI
+aiohttp
+googleapis-common-protos
+rich
+pytz
+urllib3
