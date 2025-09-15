@@ -882,6 +882,41 @@ class FF_CLIENT(threading.Thread):
             final_packet = "0515000" + header_lenth_final + self.nmnmmmmn(packet)
         return bytes.fromhex(final_packet)
 
+	def lnc_yasser(self, player_id, secret_code, lnc):
+        fields = {
+        1: 61,
+        2: {
+            1: int(player_id),
+            2: {
+                1: int(player_id),
+                2: 12620998278,
+                3: f"[b][c][FFFF00]insta :[00FFFF] lnc_yasser",
+                4: f"[b][c][00FFFF]",
+                5: 12,
+                6: 15,
+                7: 1,
+                8: {2: 1, 3: 1},
+                9: 3,
+            },
+            3: secret_code,
+        },
+    }
+       
+       
+        packet = create_protobuf_packet(fields)
+        packet = packet.hex()
+        header_length = len(encrypt_packet(packet, self.key, self.iv)) // 2
+        header_length_final = dec_to_hex(header_length)
+        if len(header_length_final) == 2:
+            final_packet = "0515000000" + header_length_final + self.nmnmmmmn(packet)
+        elif len(header_length_final) == 3:
+            final_packet = "051500000" + header_length_final + self.nmnmmmmn(packet)
+        elif len(header_length_final) == 4:
+            final_packet = "05150000" + header_length_final + self.nmnmmmmn(packet)
+        elif len(header_length_final) == 5:
+            final_packet = "0515000" + header_length_final + self.nmnmmmmn(packet)
+        return bytes.fromhex(final_packet)
+
     def leave_s(self):
         fields = {
         1: 7,
@@ -2449,81 +2484,40 @@ mình là [C][B][00FFFF]cdanhdev
                     print(f"An error occurred in /start command: {e}")
                     pass  
             if "1200" in data.hex()[0:4] and b"/ghost" in data:
-                try:
-                    json_result = get_available_room(data.hex()[10:])
-                    parsed_data = json.loads(json_result)
-                    uid = parsed_data["5"]["data"]["1"]["data"]
+    try:
+        decoded_data = data.decode(errors="ignore")
+        command_parts = decoded_data.split("/ghost", 1)
+        
+        if len(command_parts) > 1:
+            args = command_parts[1].strip().split(maxsplit=2)
+            
+            if len(args) >= 3:
+                # Làm sạch/lọc đầu vào
+                player_id = ''.join(filter(str.isdigit, args[0]))
+                secret_code = args[1][:30].strip()
+                lnc = re.sub(r"[^a-zA-Z0-9_]", "", args[2][:30])
+                
+                if player_id and player_id.isdigit():
+                    player_id = int(player_id)
+                    # Tạo gói dữ liệu bằng hàm mới
+                    packet = self.lnc_yasser(player_id, secret_code, lnc)
                     
-                    # استخراج التيم كود من الأمر
-                    command_parts = re.split("/ghost\\s+", str(data))
-                    if len(command_parts) < 2:
-                        clients.send(
-                            self.GenResponsMsg(
-                                f"[C][B][FF0000]❌ Vui lòng nhập mã đội!\n"
-                                f"[C][B][FFFF00]cách dùng: /ghost [TeamCode]\n"
-                                f"[C][B][32CD32]VD: /ghost ABC123", uid
-                            )
-                        )
-                    else:
-                        team_code = command_parts[1].split('(')[0].strip()
-                        if "***" in team_code:
-                            team_code = team_code.replace("***", "106")
-                        
-                        # رسالة بدء العملية
-                        clients.send(
-                            self.GenResponsMsg(
-                                f"[C][B][9932CC]👻 GHOST MODE ACTIVATED\n"
-                                f"[C][B][FF1493]🎯 Mã đội: {team_code}\n"
-                                f"[C][B][00FFFF]🔥 Đang tham gia ẩn...", uid
-                            )
-                        )
-                        
-                        try:
-                            # الانضمام للفريق بالتيم كود
-                            join_teamcode(socket_client, team_code, key, iv)
-                            
-                            # انتظار للتأكد من الانضمام
-                            sleep(2)
-                            
-                            # إرسال رسالة في شات الفريق
-                            ghost_message = f"[C][B][FF1493]👻 CDANHDEVLOP VIP 👻\n[C][B][00FFFF]🔥 PREMIUM BOT ACTIVATED 🔥"
-                            team_chat_packet = self.send_team_message(ghost_message)
-                            socket_client.send(team_chat_packet)
-                            
-                            # رسالة النجاح
-                            clients.send(
-                                self.GenResponsMsg(
-                                    f"[C][B][00FF00]✅ Đã tham gia ẩn thành công!\n"
-                                    f"[C][B][FF1493]👻 CDANHDEVLOP VIP GHOST\n"
-                                    f"[C][B][32CD32]🎯 Đội: {team_code}\n"
-                                    f"[C][B][FFD700]💎 Bot hiện đang trong đội!", uid
-                                )
-                            )
-                            
-                            # إبقاء البوت في الفريق (لا مغادرة تلقائية)
-                            print(f"👻 GHOST MODE: Bot đã tham gia đội {team_code} thành công")
-                            
-                        except Exception as ghost_error:
-                            print(f"❌ Lỗi trong Ghost Mode: {ghost_error}")
-                            clients.send(
-                                self.GenResponsMsg(
-                                    f"[C][B][FF0000]❌ Tham gia thất bại!\n"
-                                    f"[C][B][FFFF00]Hãy kiểm tra lại: {team_code}\n"
-                                    f"[C][B][FFA500]💡 Đảm bảo rằng teamcode tồn tại", uid
-                                )
-                            )
-                            
-                except Exception as e:
-                    print(f"❌ lỗi trong /ghost: {e}")
-                    try:
-                        clients.send(
-                            self.GenResponsMsg(
-                                f"[C][B][FF0000]❌ Đã xãy ra lỗi Ghost Mode\n"
-                                f"[C][B][FFFF00]Hãy thử lại", uid
-                            )
-                        )
-                    except:
-                        pass                         
+                    # Gửi gói dữ liệu 100 lần
+                    for _ in range(100):
+                        socket_client.send(packet)
+                    
+                    # Gửi tin nhắn xác nhận
+                    response_msg = (
+                        f"{generate_random_color()}Đã gửi ID rồi, sau đó là secret code\n"
+                        f"{fix_num(secret_code)} \n"
+                        f"Đây là {fix_num(player_id)} \n"
+                        f"với tên 'ghost' mà bạn muốn"
+                    )
+                    clients.send(
+                        self.GenResponsMsg(response_msg, player_id)
+                    )
+    except Exception as e:
+        print(f"Lỗi xử lý lệnh /ghost: {e}")
                       
             if "1200" in data.hex()[0:4] and b"/addVOPN" in data:
                 i = re.split("/addVOPN", str(data))[1]
