@@ -882,41 +882,6 @@ class FF_CLIENT(threading.Thread):
             final_packet = "0515000" + header_lenth_final + self.nmnmmmmn(packet)
         return bytes.fromhex(final_packet)
 
-	def lnc_yasser(self, player_id, secret_code, lnc):
-        fields = {
-        1: 61,
-        2: {
-            1: int(player_id),
-            2: {
-                1: int(player_id),
-                2: 12620998278,
-                3: f"[b][c][FFFF00]insta :[00FFFF] lnc_yasser",
-                4: f"[b][c][00FFFF]",
-                5: 12,
-                6: 15,
-                7: 1,
-                8: {2: 1, 3: 1},
-                9: 3,
-            },
-            3: secret_code,
-        },
-    }
-       
-       
-        packet = create_protobuf_packet(fields)
-        packet = packet.hex()
-        header_length = len(encrypt_packet(packet, self.key, self.iv)) // 2
-        header_length_final = dec_to_hex(header_length)
-        if len(header_length_final) == 2:
-            final_packet = "0515000000" + header_length_final + self.nmnmmmmn(packet)
-        elif len(header_length_final) == 3:
-            final_packet = "051500000" + header_length_final + self.nmnmmmmn(packet)
-        elif len(header_length_final) == 4:
-            final_packet = "05150000" + header_length_final + self.nmnmmmmn(packet)
-        elif len(header_length_final) == 5:
-            final_packet = "0515000" + header_length_final + self.nmnmmmmn(packet)
-        return bytes.fromhex(final_packet)
-
     def leave_s(self):
         fields = {
         1: 7,
