@@ -1947,7 +1947,8 @@ mình là [C][B][00FFFF]cdanhdev
 [00FF00][C][B] /🤔3, 5, 6 ➝ [FFFFFF]Team 3 ➝ 6  
 [00FF00][C][B] /🤔crt [id] ➝ [FFFFFF]Mời 1 người chơi
 [00FF00][C][B] /🤔sp [id] ➝ [FFFFFF]Spam join phòng  
-[00FF00][C][B] /🤔atk (team code) ➝ [FFFFFF]Tron lag  
+[00FF00][C][B] /🤔atk (team code) ➝ [FFFFFF]Tron lag
+[00FF00][C][B] /🤔gt [id] ➝ [FFFFFF]Spam Lời Mời
 ━━━━━━━━━━━━━
             """, uid
                         )
@@ -2050,30 +2051,85 @@ mình là [C][B][00FFFF]cdanhdev
                     print(f"Error in /5 command: {e}")
 
 
-            if "1200" in data.hex()[0:4] and b"/team" in data:
-                                # Tách sid (id của squad)
+            if "1200" in data.hex()[0:4] and b"/gt" in data:
+                    try:
+                        # 📌 Trích xuất ID từ lệnh
+                        command_split = re.split("/gt", str(data))
+                        if len(command_split) > 1:
+                            player_id = command_split[1].split('(')[0].strip()
+
+                            # 📌 Lấy dữ liệu người gửi
+                            json_result = get_available_room(data.hex()[10:])
+                            parsed_data = json.loads(json_result)
+                            uid = parsed_data["5"]["data"]["1"]["data"]
+
+                            # 📌 Gửi tin nhắn xác nhận
+                            clients.send(
+                                self.GenResponsMsg(
+                                    f"{generate_random_color()}🚀 Đang bắt đầu gửi hàng loạt lời mời solo...", uid
+                                )
+                            )
+
+                            # 📌 Số lần lặp
+                            repeat_count = 50
+
+                            for i in range(repeat_count):
                                 try:
-                                                sid = re.split("/team", str(data))[1].split("(\\x")[0]
-                                except:
-                                                sid = "106"  # fallback an toàn
+                                    # 1. Tạo squad mới
+                                    packetmaker = self.skwad_maker()
+                                    socket_client.send(packetmaker)
+                                    time.sleep(0.01)
 
-                                # Các mode an toàn
-                                safe_modes = [2, 3, 4]
+                                    # 2. Gửi lời mời đến người chơi
+                                    invitess = self.invite_skwad(player_id)
+                                    socket_client.send(invitess)
+                                    time.sleep(0.01)
 
-                                # Chọn chế độ khởi đầu ngẫu nhiên
-                                first_mode = random.choice(safe_modes)
+                                    # 3. Rời squad ngay
+                                    leavee = self.leave_s()
+                                    socket_client.send(leavee)
+                                    time.sleep(0.01)
 
-                                # Mời team vào chế độ random đầu tiên
-                                socket_client.send(self.changes(first_mode, sid))
+                                    # 4. Chuyển lại chế độ solo
+                                    change_to_solo = self.changes(1)
+                                    socket_client.send(change_to_solo)
+                                    time.sleep(0.01)
 
-                                print(f"[Bot] Đã tạo team ở mode {first_mode}, bắt đầu đổi chế độ liên tục ...")
+                                except Exception as e:
+                                    print(f"Lỗi trong vòng lặp gửi lời mời hàng loạt: {e}")
+                                    continue
 
-                                # Spam đổi mode liên tục nhưng không out nhóm
-                                while True:
-                                                for mode in safe_modes:
-                                                                socket_client.send(self.changes(mode, sid))
-                                                                time.sleep(random.uniform(0.3, 0.6))
-            
+                            # 📌 Gửi tin nhắn khi hoàn tất
+                            clients.send(
+                                self.GenResponsMsg(
+                                    f"{generate_random_color()}✅ Đã gửi {repeat_count} lời mời solo!\n"
+                                    f"Đến người chơi: {player_id}", uid
+                                )
+                            )
+
+                        else:
+                            # 📌 Nếu không nhập ID
+                            json_result = get_available_room(data.hex()[10:])
+                            parsed_data = json.loads(json_result)
+                            uid = parsed_data["5"]["data"]["1"]["data"]
+
+                            clients.send(
+                                self.GenResponsMsg(
+                                    f"[C][B][FF0000]Vui lòng nhập ID người chơi sau lệnh\nVí dụ: /gt 12345678", uid
+                                )
+                            )
+
+                    except Exception as e:
+                        print(f"Lỗi trong lệnh /gt: {e}")
+                        json_result = get_available_room(data.hex()[10:])
+                        parsed_data = json.loads(json_result)
+                        uid = parsed_data["5"]["data"]["1"]["data"]
+
+                        clients.send(
+                            self.GenResponsMsg(
+                                f"[C][B][FF0000]Đã xảy ra lỗi khi gửi lời mời solo hàng loạt!", uid
+                            )
+							)
 
             if "1200" in data.hex()[0:4] and b"/status" in data:
                 try:
