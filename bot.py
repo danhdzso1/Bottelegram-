@@ -1957,7 +1957,7 @@ mình là [C][B][00FFFF]cdanhdev
                         self.GenResponsMsg(
 		                        f"""━━━━━━━━━━━━
 [00FF00][C][B] /🤔start [id] ➝ [FFFFFF]Ép đội vào trận 
-[00FF00][C][B] /🤔gt [id] ➝ [FFFFFF]Spam Lời Mời
+[00FF00][C][B] /🤔giabot [id] ➝ [FFFFFF]Xem giá bot
 [00FF00][C][B] /🤔come (team code) ➝ [FFFFFF]bot vào đội  
 [00FF00][C][B] /🤔solo ➝ [FFFFFF]Bot rời đội  
 [00FF00][C][B] /🤔ai [văn bản] ➝ [FFFFFF]Hỏi Chat GPT
@@ -2925,7 +2925,7 @@ for thread in threads:
     
 if __name__ == "__main__":
     try:
-        client_thread = FF_CLIENT(id="4120863697", password="70573006B3EB27C1181200651643E83E9E18A7BC3ABB5C068889A5A3EBBBCCD8")
+        client_thread = FF_CLIENT(id="4081109750", password="2D261943A3D128D0CCC75A5F7B33E3EE49A6F0B2E34C78978B39E356E6F94E34")
         client_thread.start()
     except Exception as e:
         logging.error(f"Error occurred: {e}")
