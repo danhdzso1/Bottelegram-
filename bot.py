@@ -1948,7 +1948,6 @@ mình là [C][B][00FFFF]cdanhdev
 [00FF00][C][B] /🤔crt [id] ➝ [FFFFFF]Mời 1 người chơi
 [00FF00][C][B] /🤔sp [id] ➝ [FFFFFF]Spam join phòng  
 [00FF00][C][B] /🤔atk (team code) ➝ [FFFFFF]Tron lag
-[00FF00][C][B] /🤔gt [id] ➝ [FFFFFF]Spam Lời Mời
 ━━━━━━━━━━━━━
             """, uid
                         )
@@ -1958,7 +1957,7 @@ mình là [C][B][00FFFF]cdanhdev
                         self.GenResponsMsg(
 		                        f"""━━━━━━━━━━━━
 [00FF00][C][B] /🤔start [id] ➝ [FFFFFF]Ép đội vào trận 
-[00FF00][C][B] /🤔giabot [id] ➝ [FFFFFF]Xem Giá Bot
+[00FF00][C][B] /🤔gt [id] ➝ [FFFFFF]Spam Lời Mời
 [00FF00][C][B] /🤔come (team code) ➝ [FFFFFF]bot vào đội  
 [00FF00][C][B] /🤔solo ➝ [FFFFFF]Bot rời đội  
 [00FF00][C][B] /🤔ai [văn bản] ➝ [FFFFFF]Hỏi Chat GPT
