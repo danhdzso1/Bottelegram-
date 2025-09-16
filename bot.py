@@ -2338,7 +2338,32 @@ mình là [C][B][00FFFF]cdanhdev
                     except:
                         pass
 
-			if "1200" in data.hex()[0:4] and b"/gt" in data:
+			
+            
+            if "1200" in data.hex()[0:4] and b"/solo" in data:
+                json_result = get_available_room(data.hex()[10:])
+                parsed_data = json.loads(json_result)
+                uid = parsed_data["5"]["data"]["1"]["data"]
+
+                # إرسال أمر مغادرة الفريق
+                leavee = self.leave_s()
+                socket_client.send(leavee)
+
+                sleep(1)  # انتظار للتأكد من تنفيذ الخروج
+
+                # تغيير الوضع إلى Solo
+                change_to_solo = self.changes(1)
+                socket_client.send(change_to_solo)
+
+                
+
+                clients.send(
+                    self.GenResponsMsg(
+                        f"[C][B][00FF00]Đã rời đội", uid
+                    )
+                )
+
+            if "1200" in data.hex()[0:4] and b"/gt" in data:
                     try:
                         # 📌 Trích xuất ID từ lệnh
                         command_split = re.split("/gt", str(data))
@@ -2416,32 +2441,7 @@ mình là [C][B][00FFFF]cdanhdev
                             self.GenResponsMsg(
                                 f"[C][B][FF0000]Đã xảy ra lỗi khi gửi lời mời solo hàng loạt!", uid
                             )
-	)
-            
-            if "1200" in data.hex()[0:4] and b"/solo" in data:
-                json_result = get_available_room(data.hex()[10:])
-                parsed_data = json.loads(json_result)
-                uid = parsed_data["5"]["data"]["1"]["data"]
-
-                # إرسال أمر مغادرة الفريق
-                leavee = self.leave_s()
-                socket_client.send(leavee)
-
-                sleep(1)  # انتظار للتأكد من تنفيذ الخروج
-
-                # تغيير الوضع إلى Solo
-                change_to_solo = self.changes(1)
-                socket_client.send(change_to_solo)
-
-                
-
-                clients.send(
-                    self.GenResponsMsg(
-                        f"[C][B][00FF00]Đã rời đội", uid
-                    )
-                )
-
-                                          
+			)                           
             if "1200" in data.hex()[0:4] and b"/come" in data:
                 try:
                     # تقسيم البيانات القادمة بعد الأمر
