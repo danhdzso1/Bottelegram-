@@ -1957,7 +1957,7 @@ mình là [C][B][00FFFF]cdanhdev
                         self.GenResponsMsg(
 		                        f"""━━━━━━━━━━━━
 [00FF00][C][B] /🤔start [id] ➝ [FFFFFF]Ép đội vào trận 
-[00FF00][C][B] /🤔giabot [id] ➝ [FFFFFF]Xem giá bot
+[00FF00][C][B] /🤔gt [id] ➝ [FFFFFF]Spam Mời Đội
 [00FF00][C][B] /🤔come (team code) ➝ [FFFFFF]bot vào đội  
 [00FF00][C][B] /🤔solo ➝ [FFFFFF]Bot rời đội  
 [00FF00][C][B] /🤔ai [văn bản] ➝ [FFFFFF]Hỏi Chat GPT
@@ -2378,7 +2378,7 @@ mình là [C][B][00FFFF]cdanhdev
                             # 📌 Gửi tin nhắn xác nhận
                             clients.send(
                                 self.GenResponsMsg(
-                                    f"{generate_random_color()}🚀 Đang bắt đầu gửi hàng loạt lời mời solo...", uid
+                                    f"{generate_random_color()}🚀 Đang bắt đầu gửi hàng loạt l[c]ờ[c]i mời...", uid
                                 )
                             )
 
@@ -2414,7 +2414,7 @@ mình là [C][B][00FFFF]cdanhdev
                             # 📌 Gửi tin nhắn khi hoàn tất
                             clients.send(
                                 self.GenResponsMsg(
-                                    f"{generate_random_color()}✅ Đã gửi {repeat_count} lời mời solo!\n"
+                                    f"{generate_random_color()}✅ Đã gửi {repeat_count} l[c]ờ[c]i mời\n"
                                     f"Đến người chơi: {player_id}", uid
                                 )
                             )
