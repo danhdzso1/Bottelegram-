@@ -1,7 +1,7 @@
 import subprocess
 import time
 
-files = ["web.py", "LikesBot.py", "bot.py", "kb.py"]
+files = ["web.py", "bot.py", "kb.py"]
 
 processes = {f: subprocess.Popen(["python", f]) for f in files}
 
