@@ -1,4 +1,4 @@
-def extract_uid_from_command(cleaned_message, command, default_id="2060437760"):
+tdef extract_uid_from_command(cleaned_message, command, default_id="2060437760"):
     import re
     player_id = default_id
     try:
@@ -950,34 +950,55 @@ class FF_CLIENT(threading.Thread):
         fields = {
             1: 1,
             2: {
-            1: 3557944186,
-            2: Enc_Id,
-            3: 2,
-            4: str(Msg),
-            5: int(datetime.now().timestamp()),
-            9: {
-            
-            2: int(get_random_avatar()),
-            3: 901050006,
-            4: 330,
-            
-            10: 1,
-            11: 155
-            },
-            10: "en",
-            13: {
-            1: "https://graph.facebook.com/v9.0/104076471965380/picture?width=160&height=160",
-            2: 1,
-            3: 1
+                1: 12947146032,
+                2: Enc_Id,
+                3: 2,
+                4: str(Msg),
+                5: int(datetime.now().timestamp()),
+                7: 2,
+                9: {
+                    1: "STEVE", 
+                    2: int(get_random_avatar()),
+                    3: 901049014,
+                    4: 330,
+                    5: int(get_random_avatar()),
+                    8: "GUILD|Friend",
+                    10: 1,
+                    11: random.choice([1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]),
+                    13: {
+                        1: 2,
+                        2: 1,
+                    },
+                    14: {
+                        1: 11017917409,
+                        2: 8,
+                        3: "\u0010\u0015\b\n\u000b\u0013\f\u000f\u0011\u0004\u0007\u0002\u0003\r\u000e\u0012\u0001\u0005\u0006"
+                    }
+                },
+                10: "vn",
+                13: {
+                    1: "https://graph.facebook.com/v9.0/253082355523299/picture?width=160&height=160",
+                    2: 1,
+                    3: 1
+                },
+                14: {
+                    1: {
+                        1: random.choice([1, 4]),
+                        2: 1,
+                        3: random.randint(1, 180),
+                        4: 1,
+                        5: int(datetime.now().timestamp()),
+                        6: "VN"
+                    }
+                }
             }
-            },
-            14: ""
         }
 
         packet = create_protobuf_packet(fields)
         packet = packet.hex()
-        header_lenth = len(encrypt_packet(packet, key, iv))//2
+        header_lenth = len(encrypt_packet(packet, key, iv)) // 2
         header_lenth_final = dec_to_hex(header_lenth)
+
         if len(header_lenth_final) == 2:
             final_packet = "1215000000" + header_lenth_final + self.nmnmmmmn(packet)
         elif len(header_lenth_final) == 3:
@@ -986,6 +1007,21 @@ class FF_CLIENT(threading.Thread):
             final_packet = "12150000" + header_lenth_final + self.nmnmmmmn(packet)
         elif len(header_lenth_final) == 5:
             final_packet = "1215000" + header_lenth_final + self.nmnmmmmn(packet)
+
+        return bytes.fromhex(final_packet)
+    def createpacketinfo(self, idddd):
+        ida = Encrypt(idddd)
+        packet = f"080112090A05{ida}1005"
+        header_lenth = len(encrypt_packet(packet, key, iv))//2
+        header_lenth_final = dec_to_hex(header_lenth)
+        if len(header_lenth_final) == 2:
+            final_packet = "0F15000000" + header_lenth_final + self.nmnmmmmn(packet)
+        elif len(header_lenth_final) == 3:
+            final_packet = "0F1500000" + header_lenth_final + self.nmnmmmmn(packet)
+        elif len(header_lenth_final) == 4:
+            final_packet = "0F150000" + header_lenth_final + self.nmnmmmmn(packet)
+        elif len(header_lenth_final) == 5:
+            final_packet = "0F15000" + header_lenth_final + self.nmnmmmmn(packet)
         return bytes.fromhex(final_packet)
     def createpacketinfo(self, idddd):
         ida = Encrypt(idddd)
